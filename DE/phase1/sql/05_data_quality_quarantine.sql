@@ -16,20 +16,6 @@ CREATE TABLE quarantine_events (
 quarantined_at TIMESTAMP DEFAULT NOW()
 );
 
--- 2) Add quality constraints to curated fact table (guardrails)
-ALTER TABLE fact_events
-  ADD CONSTRAINT chk_event_type_not_blank CHECK (TRIM(event_type) <> '');
-
-ALTER TABLE fact_events
-  ADD CONSTRAINT chk_purchase_amount CHECK (
-    event_type <> 'purchase' OR amount IS NOT NULL
-  );
-
-ALTER TABLE fact_events
-  ADD CONSTRAINT chk_amount_non_negative CHECK (
-    amount IS NULL OR amount >= 0
-  );
-
 -- 3) Removing the alredy existing data ..
 TRUNCATE TABLE fact_events;
 TRUNCATE TABLE quarantine_events;

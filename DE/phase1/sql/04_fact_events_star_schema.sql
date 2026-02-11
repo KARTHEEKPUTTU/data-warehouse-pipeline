@@ -32,7 +32,11 @@ CREATE TABLE fact_events (
   amount NUMERIC(10,2),
   source TEXT,
   is_known_person BOOLEAN NOT NULL,
-  load_ts TIMESTAMP DEFAULT NOW()
+  load_ts TIMESTAMP DEFAULT NOW(),
+
+  CONSTRAINT chk_event_type_not_blank CHECK (TRIM(event_type) <> ''),
+  CONSTRAINT chk_purchase_amount CHECK (event_type <> 'purchase' OR amount IS NOT NULL),
+  CONSTRAINT chk_amount_non_negative CHECK (amount IS NULL OR amount >= 0)
 );
 
 -- Load fact from raw with dim lookup

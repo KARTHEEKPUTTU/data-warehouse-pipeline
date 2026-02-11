@@ -9,7 +9,7 @@ CREATE INDEX IF NOT EXISTS idx_fact_events_event_type ON fact_events(event_type)
 EXPLAIN SELECT d.country,SUM(f.amount) AS total_revenue_per_country FROM fact_events f JOIN dim_people d ON f.email = d.email
 WHERE event_type = 'purchase' group by d.country order by total_revenue_per_country DESC;
 
-EXPLAIN with index-forcing (LEARNING ONLY)
+-- EXPLAIN with index-forcing (LEARNING ONLY)
 -- enable_seqscan=off is not for production; it helps you see an index plan.
 SET enable_seqscan = off;
 
