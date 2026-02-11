@@ -59,24 +59,25 @@ This is a common pattern I see in real DE discussions:
 
 ---
 
-## How to run (manual)
-Start Postgres container and connect:
+## How to run (recommended – Windows CMD)
 
-```bash
-docker exec -it de-postgres psql -U de_user -d de_db
+Prereqs:
+- Docker Desktop is running
+- Postgres container name: `de-postgres`
+
+Start container (if needed):
 ```
-
-**## Then run scripts in order from inside psql:**
-\i DE/phase1/sql/01_create_insert_validate.sql
-\i DE/phase1/sql/02_staging_clean_load.sql
-\i DE/phase1/sql/03_dedup_upsert_dim_people.sql
-\i DE/phase1/sql/04_fact_events_star_schema.sql
-\i DE/phase1/sql/05_data_quality_quarantine.sql
-\i DE/phase1/sql/06_indexes_explain.sql
-
+docker start de-postgres
+```
+Run the full Phase 1 pipeline:
+```
+DE\phase1\run_phase1.cmd
+```
 **## Files:**
 ```
-DE/phase1/sql/
+DE/phase1/
+  run_phase1.cmd
+  sql/
   01_create_insert_validate.sql
   02_staging_clean_load.sql
   03_dedup_upsert_dim_people.sql
@@ -92,6 +93,6 @@ DE/phase1/sql/
 
 **## What I’ll improve next (Phase 2+)**
 - load raw tables from CSV/JSON using Python
-- automate running SQL scripts cleanly
+- Phase 1 automated run via run_phase1.cmd; Phase 2 will automate ingestion from files using Python
 - more realistic schema + larger data volumes
 - add tests/validation reports
