@@ -1,98 +1,39 @@
-# Phase 1 – Postgres Data Warehouse Mini Pipeline (Docker)
-
-This is my Phase 1 data engineering practice project.  
-Goal: build a small but realistic pipeline in PostgreSQL (running in Docker) using SQL only.
-
-I created a simple “raw → staging → curated” flow, added data quality checks, and verified results with analytics queries + EXPLAIN plans.
 
 ---
 
-## What I built (high level)
+### Root-level `README.md`
 
-### 1) Raw layer (landing/audit)
-- **raw_people**: user/person data as received (can include blanks/nulls)
-- **raw_events**: event data (login/purchase). Also can include bad rows.
+```markdown
+# Data-Warehouse-Pipeline (learning series)
 
-Raw tables are like “first stop” tables. I keep data close to the source so I can debug issues later.
+A personal playground to practise end-to-end data-engineering patterns on my laptop
+using Docker, PostgreSQL, and Python.  
+I’m building it in **phases** so I can focus on one concept at a time.
 
-### 2) Staging layer (cleaning)
-- **stg_people**
-- Cleaning logic includes:
-  - trim spaces
-  - convert empty strings to NULL
-  - handle missing country (set to `UNKNOWN`)
-  - age validation (remove invalid ranges)
+| Phase | Folder | What it covers |
+|-------|--------|----------------|
+| 1 | [`DE/phase1`](DE/phase1) | SQL-only mini warehouse: raw → staging → curated, data-quality checks, rerunnable scripts, star-schema basics. |
+| 2 | [`DE/phase2`](DE/phase2) | Ingest external data (Open-Meteo API) into raw tables, keep an audit log, schedule a daily job on Windows. |
 
-This is where I standardize data before using it downstream.
-
-### 3) Curated layer (trusted tables for analytics)
-- **dim_people** (dimension table)
-  - one row per person using **email** as the business key
-  - dedup logic: keep the **latest** record per email
-  - uses `ROW_NUMBER()` + `ON CONFLICT DO UPDATE` (upsert)
-  - stores lineage fields like `source_person_id`, `source_created_at`
-
-- **fact_events** (fact table)
-  - stores events like login/purchase with timestamp and amount
-  - enriched with `is_known_person` flag using a join to `dim_people`
-
-### 4) Data quality (quarantine pattern)
-- **quarantine_events**
-  - rows that fail rules go here with a `reject_reason`
-  - example: missing email, purchase with missing amount, negative amount
-
-Also added table constraints (CHECK rules) so bad data can’t enter curated tables by mistake.
-
-### 5) Performance basics
-- created indexes on join/filter columns
-- used `EXPLAIN` and `EXPLAIN ANALYZE` to understand query plans
-- learned how planner can choose seq scan vs index scan (especially on small tables)
 
 ---
 
-## Why I chose this design
-This is a common pattern I see in real DE discussions:
-- Raw tables keep “what came in”
-- Staging cleans data
-- Curated tables are stable for BI/reporting
-- Quarantine helps investigate bad records instead of deleting them
+## Quick start (Phase 1 & 2)
 
----
-
-## How to run (recommended – Windows CMD)
-
-Prereqs:
-- Docker Desktop is running
-- Postgres container name: `de-postgres`
-
-Start container (if needed):
-```
+```bash
+# Start (or resume) the Postgres container
 docker start de-postgres
-```
-Run the full Phase 1 pipeline:
-```
-DE\phase1\run_phase1.cmd
-```
-**## Files:**
-```
-DE/phase1/
-  run_phase1.cmd
-  sql/
-  01_create_insert_validate.sql
-  02_staging_clean_load.sql
-  03_dedup_upsert_dim_people.sql
-  04_fact_events_star_schema.sql
-  05_data_quality_quarantine.sql
-  06_indexes_explain.sql
-  run_phase1.sql
-```
-**## Example checks I did**
-- raw_events count vs fact_events + quarantine_events count
-- revenue by country and purchase per person using fact + dim join
-- confirmed dedup: same email in raw_people updates the row in dim_people (latest record wins)
 
-**## What I’ll improve next (Phase 2+)**
-- load raw tables from CSV/JSON using Python
-- Phase 1 automated run via run_phase1.cmd; Phase 2 will automate ingestion from files using Python
-- more realistic schema + larger data volumes
-- add tests/validation reports
+# Run Phase 1 rebuild (Windows CMD)
+DE\phase1\run_phase1.cmd
+
+python DE\phase2\scripts\load_openmeteo_hourly.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
+```
+Check the per-phase README files for deeper docs.
+
+## Why this repo?
+
+I wanted something more realistic than copying StackOverflow snippets,
+but still small enough to run on a laptop.
+Everything here is done with plain SQL + Python first, then gradually automated.
+
