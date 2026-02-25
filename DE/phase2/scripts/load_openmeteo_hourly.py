@@ -59,6 +59,8 @@ if __name__ == "__main__":
 
     conn.commit()
 
+
+
     URL = "https://api.open-meteo.com/v1/forecast"
     HOURLY_VARS = ["temperature_2m", "precipitation", "windspeed_10m"]
 
@@ -68,7 +70,7 @@ if __name__ == "__main__":
         "hourly": ",".join(HOURLY_VARS),
         "timezone": "America/Chicago",
     }
-
+    
     resp = requests.get(URL, params=api_params, timeout=60)
     resp.raise_for_status()
     data = resp.json()
@@ -103,14 +105,16 @@ if __name__ == "__main__":
     print("location_id = ",location_id, ": run_id = ",run_id)
 
     #QA guard-rail
-    if (row_count != 168) or (t is None for t in temps):
+    if (row_count != 168) or any(x is None for x in temps):
+        conn.rollback()  # rollback data inserts
+        cur = conn.cursor()
         cur.execute(
             """
                 UPDATE ingestion_runs SET finished_at = NOW(),status = 'FAILED',error_message = %s WHERE run_id = %s;
             """,
-            (f"Expected 168 rows but got {row_count} rows",run_id)
+            (f"QC failed: row_count={row_count}", run_id),
         )
-        conn.rollback()
+        conn.commit()
         raise RuntimeError("Quality check failed - load rolled back")
     
     #mark run SUCCESS
