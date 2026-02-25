@@ -1,39 +1,47 @@
+# Open-Meteo Weather Data Pipeline (Postgres + Airflow)
+
+An end-to-end data engineering pipeline that ingests hourly weather data from **Open-Meteo** into **PostgreSQL** with
+**idempotent upserts**, **watermark-based incremental loading**, **audit logging**, and **quality checks**.
+Orchestrated with **Apache Airflow (Docker)** and supports **multi-city parallel ingestion**.
+
+## Project Phases
+
+| Phase |          Folder          |                                               What it covers                                              |
+|------ |--------------------------|-----------------------------------------------------------------------------------------------------------|
+| 1     | [`DE/phase1`](DE/phase1) | SQL warehouse basics: raw → staging → curated, rerunnable scripts, data-quality checks, star schema intro |
+| 2     | [`DE/phase2`](DE/phase2) | Initial Open-Meteo ingestion into Postgres raw tables + audit table + Windows Task Scheduler automation |
+| 3     | [`DE/phase3`](DE/phase3) | Incremental loader (watermark): idempotency, `ingestion_runs` audit, QC + rollback on failure |
+| 4     | [`DE/phase4_airflow`](DE/phase4_airflow) | Airflow orchestration in Docker: schedule, retries/timeouts, QC task, multi-city ingestion |
 
 ---
 
-### Root-level `README.md`
-
-```markdown
-# Data-Warehouse-Pipeline (learning series)
-
-A personal playground to practise end-to-end data-engineering patterns on my laptop
-using Docker, PostgreSQL, and Python.  
-I’m building it in **phases** so I can focus on one concept at a time.
-
-| Phase |           Folder         |                                         What it covers                                                         |
-|-------|--------------------------|----------------------------------------------------------------------------------------------------------------|
-| 1     | [`DE/phase1`](DE/phase1) | SQL-only mini warehouse: raw → staging → curated, data-quality checks, rerunnable scripts, star-schema basics. |
-| 2     | [`DE/phase2`](DE/phase2) | Ingest external data (Open-Meteo API) into raw tables, keep an audit log, schedule a daily job on Windows.     |
-
-
----
-
-## Quick start (Phase 1 & 2)
+## Quick Start
 
 ```bash
-# Start (or resume) the Postgres container
+# Start (or resume) the Postgres container used for the warehouse
 docker start de-postgres
-
-# Run Phase 1 rebuild (Windows CMD)
-DE\phase1\run_phase1.cmd
-
-python DE\phase2\scripts\load_openmeteo_hourly.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
 ```
-Check the per-phase README files for deeper docs.
+Phase 1 (SQL-only warehouse build)
+```
+# Windows CMD
+DE\phase1\run_phase1.cmd
+```
 
-## Why this repo?
+Phase 2 (one-time ingestion)
+```
+python DE/phase2/scripts/load_openmeteo_hourly.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
+```
 
-I wanted something more realistic than copying StackOverflow snippets,
-but still small enough to run on a laptop.
-Everything here is done with plain SQL + Python first, then gradually automated.
+Phase 3 (incremental hourly ingestion)
+```
+python DE/phase3/scripts/load_openmeteo_hourly_incremental.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
+```
 
+Phase 4 (Airflow orchestration)
+```
+cd DE/phase4_airflow
+# Copy .env.example -> .env and fill in your local values (do not commit .env)
+docker compose up -d --build
+# Airflow UI: http://localhost:8080
+```
+Full setup instructions, architecture, and troubleshooting are documented in each phase folder README.
