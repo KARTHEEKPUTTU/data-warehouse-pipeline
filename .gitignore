@@ -1,0 +1,25 @@
+# Secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+logs/
+airflow/logs/
+
+# Airflow local/runtime
+airflow.cfg
+airflow.db
+
+# Docker/DB volumes (common names)
+pgdata/
+postgres-data/
+postgres-airflow-data/
+**/volumes/
+**/data/
