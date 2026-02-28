@@ -12,7 +12,7 @@ Orchestrated with **Apache Airflow (Docker)** and supports **multi-city parallel
 | 2     | [`DE/phase2`](DE/phase2) | Initial Open-Meteo ingestion into Postgres raw tables + audit table + Windows Task Scheduler automation |
 | 3     | [`DE/phase3`](DE/phase3) | Incremental loader (watermark): idempotency, `ingestion_runs` audit, QC + rollback on failure |
 | 4     | [`DE/phase4_airflow`](DE/phase4_airflow) | Airflow orchestration in Docker: schedule, retries/timeouts, QC task, multi-city ingestion |
-| 5     | [\DE/phase5_modeling`](DE/phase5_modeling) | Modeling in Postgres: STG view, dim_date, fact_weather_hourly, QC + analytics queries |`
+| 5     | [`DE/phase5_modeling`](DE/phase5_modeling) | Modeling in Postgres: STG view, dim_date, fact_weather_hourly, QC + analytics queries |`
 ---
 
 ## Quick Start
