@@ -4,7 +4,7 @@ An end-to-end data engineering pipeline that ingests hourly weather data from **
 **idempotent upserts**, **watermark-based incremental loading**, **audit logging**, and **quality checks**.
 Orchestrated with **Apache Airflow (Docker)** and supports **multi-city parallel ingestion**.
 
-## Project Phases
+## Project Phases:
 
 | Phase |          Folder          |                                               What it covers                                              |
 |------ |--------------------------|-----------------------------------------------------------------------------------------------------------|
@@ -15,36 +15,37 @@ Orchestrated with **Apache Airflow (Docker)** and supports **multi-city parallel
 | 5     | [`DE/phase5_modeling`](DE/phase5_modeling) | Modeling in Postgres: STG view, dim_date, fact_weather_hourly, QC + analytics queries |
 ---
 
-## Quick Start
+## Quick Start:
 
 ```bash
 # Start (or resume) the Postgres container used for the warehouse
 docker start de-postgres
 ```
-Phase 1 (SQL-only warehouse build)
+# Phase 1 (SQL-only warehouse build):
 ```
 # Windows CMD
 DE\phase1\run_phase1.cmd
 ```
 
-Phase 2 (one-time ingestion)
+# Phase 2 (one-time ingestion):
 ```
 python DE/phase2/scripts/load_openmeteo_hourly.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
 ```
 
-Phase 3 (incremental hourly ingestion)
+# Phase 3 (incremental hourly ingestion):
 ```
 python DE/phase3/scripts/load_openmeteo_hourly_incremental.py --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
 ```
 
-Phase 4 (Airflow orchestration)
+# Phase 4 (Airflow orchestration):
 ```
 cd DE/phase4_airflow
 # Copy .env.example -> .env and fill in your local values (do not commit .env)
 docker compose up -d --build
 # Airflow UI: http://localhost:8080
 ```
-Phase 5 (modeling in Postgres)
+# Phase 5 (modeling in Postgres):
+
 See DE/phase5_modeling/README.md for the run order (STG → dim_date → fact → load → QC).
 
 Full setup instructions, architecture, and troubleshooting are documented in each phase folder README.
