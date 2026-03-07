@@ -31,7 +31,6 @@ Run the SQL scripts in this order:
   06_analytics_queries.sql (optional, for sample analysis)
 
 # Quality checks
-
 Phase 5 includes basic QC queries to confirm:
 - staging row count matches fact row count
 - no missing joins to dim_date or dim_location
