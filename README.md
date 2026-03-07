@@ -16,11 +16,11 @@ Orchestrated with **Apache Airflow (Docker)** and supports **multi-city parallel
 ---
 
 ## Quick Start:
-
 ```bash
 # Start (or resume) the Postgres container used for the warehouse
 docker start de-postgres
 ```
+
 # Phase 1 (SQL-only warehouse build):
 ```
 # Windows CMD
@@ -45,7 +45,6 @@ docker compose up -d --build
 # Airflow UI: http://localhost:8080
 ```
 # Phase 5 (modeling in Postgres):
-
 See DE/phase5_modeling/README.md for the run order (STG → dim_date → fact → load → QC).
 
 Full setup instructions, architecture, and troubleshooting are documented in each phase folder README.
