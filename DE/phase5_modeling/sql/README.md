@@ -1,6 +1,6 @@
 ## Phase 5 — Modeling (RAW → STG → CURATED) in Postgres
 - Phase 5 takes the raw Open-Meteo ingestion tables from Phase 3/4 and turns them into analytics-ready tables using a simple warehouse modeling approach.
-
+- 
 # Goal
 - Keep the raw ingestion tables unchanged for traceability
 - Create a clean staging layer for consistent downstream use
@@ -22,7 +22,7 @@
     - Foreign keys: location_id → dim_location, date_key → dim_date, run_id → ingestion_runs
 
 # How to run
-Run the SQL scripts in this order:
+Run the SQL scripts in the below order:
   01_stg_weather_hourly.sql
   02_dim_date.sql
   03_fact_weather_hourly.sql
