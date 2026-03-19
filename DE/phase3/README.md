@@ -29,7 +29,6 @@ README.md
 ---
 
 ## Tables used
-
 ### `dim_location`
 Stores a unique location (name + latitude/longitude).
 
