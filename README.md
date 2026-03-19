@@ -47,4 +47,4 @@ docker compose up -d --build
 # Phase 5 (modeling in Postgres):
 See DE/phase5_modeling/README.md for the run order (STG → dim_date → fact → load → QC).
 
-Full setup instructions, architecture, and troubleshooting are documented in each phase folder README.
+- Full setup instructions, architecture, and troubleshooting are documented in each phase folder README.
