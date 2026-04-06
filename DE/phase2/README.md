@@ -36,16 +36,13 @@
        /TR "\"C:\Kartheek_Space\run_openmeteo_chicago.cmd\"" ^
        /RL HIGHEST /F
      ```
-
 ---
-
 ## How to test locally
 
 ```cmd
 REM inside the repo root
 python DE\phase2\scripts\load_openmeteo_hourly.py ^
   --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
-
 ```
 
 ## Expected output
