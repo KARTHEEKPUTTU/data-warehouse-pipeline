@@ -23,21 +23,17 @@ logs/
 openmeteo_task_incremental.log
 README.md
 ```
-
 > `logs/` is just local execution output. It shouldn’t be committed to git.
-
 ---
 
 ## Tables used
 ### `dim_location`
 Stores a unique location (name + latitude/longitude).
-
 - Uniqueness: `(latitude, longitude)`
 - Loader behavior: **upsert** and reuse the same `location_id`
 
 ### `raw_weather_hourly`
 Hourly weather facts.
-
 - Primary key: `(location_id, ts)` → prevents duplicates at the correct grain
 - Loader behavior: **upsert** hourly rows (updates the measures if the row already exists)
 
