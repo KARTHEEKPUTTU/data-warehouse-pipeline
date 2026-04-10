@@ -3,6 +3,7 @@ An end-to-end data engineering pipeline that ingests hourly weather data from **
 **idempotent upserts**, **watermark-based incremental loading**, **audit logging**, and **quality checks**.
 Orchestrated with **Apache Airflow (Docker)**, supports **multi-city parallel ingestion**, and exports to **AWS S3** and **Snowflake** for cloud-based analytics.
 
+
 ## Project Phases:
 | Phase | Folder | What it covers |
 |-------|--------|----------------|
