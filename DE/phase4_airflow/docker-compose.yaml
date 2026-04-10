@@ -6,6 +6,8 @@ services:
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
     restart: unless-stopped
+    volumes:
+      - postgres_airflow_data:/var/lib/postgresql/data
   
   de-postgres:
     image: postgres:16
@@ -16,6 +18,8 @@ services:
     ports:
       - "5433:5432"
     restart: unless-stopped
+    volumes:
+      - de_postgres_data:/var/lib/postgresql/data
 
   airflow-webserver:
     image: kartheek-airflow:2.9.0-celery
@@ -23,11 +27,17 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ../phase3:/opt/airflow/phase3
+      - ../phase6_cloud_elt:/opt/airflow/phase6_cloud_elt
+      - ../phase7_snowflake:/opt/airflow/phase7_snowflake
     command: webserver
     ports:
       - "8080:8080"
     depends_on:
       - postgres-airflow
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 
   airflow-scheduler:
     image: kartheek-airflow:2.9.0-celery
@@ -35,9 +45,15 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ../phase3:/opt/airflow/phase3
+      - ../phase6_cloud_elt:/opt/airflow/phase6_cloud_elt
+      - ../phase7_snowflake:/opt/airflow/phase7_snowflake
     command: scheduler
     depends_on:
       - airflow-webserver
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 
   airflow-worker:
     image: kartheek-airflow:2.9.0-celery
@@ -45,9 +61,15 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ../phase3:/opt/airflow/phase3
+      - ../phase6_cloud_elt:/opt/airflow/phase6_cloud_elt
+      - ../phase7_snowflake:/opt/airflow/phase7_snowflake
     command: celery worker
     depends_on:
       - airflow-scheduler
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 
   airflow-triggerer:
     image: kartheek-airflow:2.9.0-celery
@@ -55,10 +77,20 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ../phase3:/opt/airflow/phase3
+      - ../phase6_cloud_elt:/opt/airflow/phase6_cloud_elt
+      - ../phase7_snowflake:/opt/airflow/phase7_snowflake
     command: triggerer
     depends_on:
       - airflow-scheduler
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
   
   redis:
     image: redis:7-alpine
     restart: unless-stopped
+
+volumes:
+  postgres_airflow_data:
+  de_postgres_data:

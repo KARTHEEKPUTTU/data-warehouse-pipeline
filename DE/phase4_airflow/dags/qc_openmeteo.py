@@ -22,8 +22,8 @@ def main():
     
     run_dt=datetime.fromisoformat(run_ts)
 
-    window_start = run_dt - timedelta(minutes=15)
-    window_end = run_dt + timedelta(minutes=15)
+    window_start = run_dt 
+    window_end = run_dt + timedelta(hours=2)
 
     cur.execute(
         """
