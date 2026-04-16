@@ -13,7 +13,6 @@ and `COPY INTO`.
 - Uses a pre-configured file format (`RAW_WEATHER_CSV_FORMAT`) to parse CSVs
 - Logs the load result row by row
 - Verifies the total row count in `raw_weather_hourly` after load
-
 ---
 
 ## What's in this folder
@@ -21,7 +20,6 @@ DE/phase7_snowflake/
 scripts/
 load_to_snowflake.py
 README.md
-
 ---
 
 ## Snowflake objects required (pre-setup)
@@ -59,7 +57,6 @@ CREATE OR REPLACE TABLE raw_weather_hourly (
   run_id            INTEGER
 );
 ```
-
 ---
 
 ## Configuration
