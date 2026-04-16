@@ -15,7 +15,6 @@ cloud-based tools like Snowflake (Phase 7).
   `raw_weather_hourly/dt=YYYY-MM-DD/city=City_Slug/weather_hourly.csv`
 - Cleans up the local temp file after upload
 - Handles missing data gracefully (NO_DATA log, clean exit)
-
 ---
 
 ## What's in this folder
@@ -23,7 +22,6 @@ DE/phase6_cloud_elt/
 scripts/
 export_to_s3.py
 README.md
-
 ---
 
 ## S3 Structure
@@ -39,7 +37,6 @@ weather_hourly.csv
 
 The partition layout (`dt=` / `city=`) follows Hive-style conventions,
 making it compatible with Snowflake external stages, AWS Glue, and Athena.
-
 ---
 
 ## Cities exported
