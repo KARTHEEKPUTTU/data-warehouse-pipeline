@@ -7,7 +7,6 @@ The goal here is to run the Phase 3 incremental loader as a scheduled, reliable 
 - centralized logs in Airflow UI
 - a QC step that validates the latest run
 - multi-city ingestion running in parallel
-
 ---
 
 ## What’s in this folder
