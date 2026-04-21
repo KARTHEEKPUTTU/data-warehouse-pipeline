@@ -13,4 +13,5 @@ LEFT JOIN dim_location l ON f.location_id=l.location_id
 WHERE l.location_id IS NULL;
 
 -- Duplicate grain check
-select location_id,ts,count(*) AS Duplicate_count from fact_weather_hourly group by location_id,ts HAVING COUNT(*)>1;
+select location_id,ts,count(*) AS Duplicate_count 
+from fact_weather_hourly group by location_id,ts HAVING COUNT(*)>1;
