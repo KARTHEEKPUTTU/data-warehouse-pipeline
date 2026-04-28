@@ -9,7 +9,6 @@ What this phase focuses on:
 - **Quality checks** with **transaction rollback** on failure
 
 ---
-
 ## What’s in this folder
 
 ```
@@ -47,7 +46,6 @@ Tracks:
 - row_count + error_message
 
 ---
-
 ## How the incremental load works
 
 At a high level, each run does this:
