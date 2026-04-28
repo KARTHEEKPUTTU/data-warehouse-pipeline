@@ -6,7 +6,6 @@ partitioned CSV files — making the data available for downstream
 cloud-based tools like Snowflake (Phase 7).
 
 ---
-
 ## What it does
 
 - Connects to Postgres and finds the latest available date per city
@@ -48,7 +47,6 @@ making it compatible with Snowflake external stages, AWS Glue, and Athena.
 | Los Angeles, CA  | Los_Angeles_CA   |
 
 ---
-
 ## Configuration
 
 All credentials are read from environment variables. Do not hardcode these.
@@ -69,7 +67,6 @@ AWS credentials are picked up automatically via:
 ---
 
 ## How to run
-
 ```bash
 python DE/phase6_cloud_elt/scripts/export_to_s3.py
 ```
