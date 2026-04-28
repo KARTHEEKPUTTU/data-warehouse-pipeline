@@ -3,11 +3,9 @@
 Phase 7 completes the cloud ELT pipeline by loading the S3-partitioned
 CSV files (exported in Phase 6) into Snowflake using an external stage
 and `COPY INTO`.
-
 ---
 
 ## What it does
-
 - Connects to Snowflake using environment-based credentials
 - Executes a `COPY INTO` from an S3 external stage (`@WEATHER_S3_STAGE`)
 - Uses a pre-configured file format (`RAW_WEATHER_CSV_FORMAT`) to parse CSVs
