@@ -1,7 +1,6 @@
 # Phase 4 — Airflow Orchestration (Docker)
 
 Phase 4 replaces the Phase 3 Windows Task Scheduler approach with **Apache Airflow** running in Docker.
-
 The goal here is to run the Phase 3 incremental loader as a scheduled, reliable workflow with:
 - scheduling + retries + timeouts
 - centralized logs in Airflow UI
@@ -41,7 +40,6 @@ README.md
 So Airflow containers can directly run the Phase 3 loader without copying code.
 
 ---
-
 ## Services in Docker Compose
 
 `docker-compose.yaml` brings up:
@@ -54,7 +52,6 @@ So Airflow containers can directly run the Phase 3 loader without copying code.
 
 Optional (included in my compose):
 - `de-postgres` — a Postgres 16 container that hosts the project tables (`dim_location`, `raw_weather_hourly`, `ingestion_runs`)
-
 ---
 
 ## Setup / Configuration
