@@ -13,7 +13,6 @@
 | **ingestion_runs** | Audit log: when the job ran, how many rows, success/failure message. |
 
 ---
-
 ## How the pipeline works
 
 1. **`load_openmeteo_hourly.py`**  
@@ -44,13 +43,14 @@ REM inside the repo root
 python DE\phase2\scripts\load_openmeteo_hourly.py ^
   --lat 41.8781 --lon -87.6298 --name "Chicago, IL"
 ```
-
 ## Expected output
+
 ```
 location_id = 1 : run_id = 8
 SUCCESS: 168 hourly rows upserted (run_id=8)
 ```
 ## Then in psql:
+
 ```
 SELECT COUNT(*) FROM raw_weather_hourly
 WHERE run_id = (SELECT MAX(run_id) FROM ingestion_runs);
