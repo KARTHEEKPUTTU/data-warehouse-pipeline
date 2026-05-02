@@ -82,6 +82,7 @@ Airflow UI:
 ```
 http://localhost:8080
 ```
+
 # Important: DE Postgres connection (containers vs host)
 
 - Airflow runs inside containers, so DB host/port matters.
@@ -188,6 +189,7 @@ LIMIT 10;
 
 SELECT COUNT(*) FROM raw_weather_hourly;
 ```
+
 ## Common issues I hit (and how I fixed them)
 # Connection refused to localhost:5432
 
