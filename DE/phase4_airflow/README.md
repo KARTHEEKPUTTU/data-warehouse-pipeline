@@ -84,7 +84,6 @@ http://localhost:8080
 ```
 
 # Important: DE Postgres connection (containers vs host)
-
 - Airflow runs inside containers, so DB host/port matters.
 
 You have two valid ways to connect to the de_db database:
@@ -115,9 +114,7 @@ DE_DB_PORT=5433
 # File: dags/openmeteo_incremental.py
 
 What it does:
-
 - Runs Phase 3 incremental loader for multiple cities in parallel:
-
     - Chicago
     - New York
     - Los Angeles
@@ -125,7 +122,6 @@ What it does:
 - Then runs the QC task
 
 # Scheduling and timezone
-
 - DAG timezone: America/Chicago
 
 - Example schedule in the DAG: 00 4 * * * (4:00 AM Chicago)
@@ -133,7 +129,6 @@ What it does:
 Note: Airflow UI may show next run in UTC even though the DAG is configured with Chicago timezone. The cron schedule still follows the DAG timezone.
 
 # Retries / reliability
-
 Each city task has:
 
 - retries=2
@@ -147,7 +142,6 @@ QC step: qc_openmeteo.py
 File: dags/qc_openmeteo.py
 
 QC logic:
-
 1. Uses QC_RUN_TS (Airflow {{ ts }}) to search a small time window for the latest ingestion_runs row
 2. Allows status: SUCCESS or SKIPPED
 3. If SUCCESS, enforces:
@@ -162,7 +156,7 @@ QC logic:
 
 This keeps “bad loads” from silently passing.
 
-How to run (end-to-end)
+**ow to run (end-to-end)**
 
 1. Start containers:
 ```
