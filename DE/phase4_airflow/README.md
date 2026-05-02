@@ -156,7 +156,7 @@ QC logic:
 
 This keeps “bad loads” from silently passing.
 
-**ow to run (end-to-end)**
+**How to run (end-to-end)**
 
 1. Start containers:
 ```
