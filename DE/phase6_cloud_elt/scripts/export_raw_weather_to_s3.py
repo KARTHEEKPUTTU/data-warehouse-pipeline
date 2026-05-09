@@ -20,10 +20,10 @@ CITIES = [
 
 def get_conn():
     return psycopg2.connect(
-        host=os.getenv("DE_DB_HOST"),
+        host=os.getenv("DE_DB_HOST_NAME"),
         port=int(os.getenv("DE_DB_PORT","5432")),
         dbname=os.getenv("DE_DB_NAME"),
-        user=os.getenv("DE_DB_USER"),
+        user=os.getenv("DE_DB_USER_NAME"),
         password=os.getenv("DE_DB_PASSWORD"),
     )
 
