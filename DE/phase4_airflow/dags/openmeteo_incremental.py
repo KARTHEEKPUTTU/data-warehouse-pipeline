@@ -7,7 +7,7 @@ tz = pendulum.timezone("America/Chicago")
 with DAG(
     dag_id="openmeteo_incremental",
     start_date=pendulum.datetime(2026,2,23,tz=tz),
-    schedule="00 4 * * *",
+    schedule="00 5 * * *",
     catchup=False,
     tags=["weather","phase4"],
 
@@ -32,6 +32,7 @@ with DAG(
         retry_delay=timedelta(minutes=2),
         execution_timeout=timedelta(minutes=10),
     )
+    
     run_la=BashOperator(
         task_id="run_openmeteo_la",
         bash_command=(
